@@ -1,0 +1,101 @@
+.music-chart-container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 20px;
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    background-color: #ffffff;
+}
+
+.chart-section {
+    flex: 1;
+    max-width: 500px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.chart-section h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+}
+
+.chart-section p {
+    font-size: 14px;
+    color: #888;
+    margin: 0 0 20px 0;
+}
+
+.chart-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.chart-item .rank {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    width: 30px;
+    text-align: center;
+}
+
+.chart-item .album-art {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    margin: 0 12px;
+}
+
+.chart-item .song-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.song-info .title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+}
+
+.song-info .artist {
+    font-size: 13px;
+    color: #666;
+}
+
+.chart-item .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.actions .share-btn,
+.actions .play-btn {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions .play-btn {
+    background-color: #7c4dff;
+    color: white;
+    border: none;
+}

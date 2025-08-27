@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% set page = "login" %}
+
+{% block content %}
+{% if status == "already_login" %}
+<div class="text-center mt-32">
+  <h2 class="text-2xl font-bold text-gray-700">이미 로그인이 되어 있습니다.</h2>
+</div>
+
+{% else %}
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+  <div class="bg-white/90 p-6 rounded-2xl shadow-xl w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4">로그인</h2>
+    <form id="auth-form">
+      <div class="mb-3">
+        <label for="user-id" class="block text-sm text-gray-600 mb-1">아이디</label>
+        <input id="user-id" type="text" class="w-full p-2 border rounded">
+      </div>
+      <div class="mb-3">
+        <label for="user-password" class="block text-sm text-gray-600 mb-1">비밀번호</label>
+        <input id="user-password" type="password" class="w-full p-2 border rounded">
+      </div>
+      <button type="submit" id="auth-submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg">로그인</button>
+    </form>
+
+    <div class="mt-4 text-center text-sm space-y-2">
+      <div class="flex justify-center gap-4">
+        <a href="/findid" class="text-indigo-600 hover:text-indigo-800 font-bold">아이디 찾기</a>
+        <span class="text-slate-400">|</span>
+        <a href="/findpw" class="text-indigo-600 hover:text-indigo-800 font-bold">비밀번호 찾기</a>
+      </div>
+      <p>
+        계정이 없으신가요?
+        <a id="toggle-auth" href="/register" class="text-indigo-600 font-bold">회원가입</a>
+      </p>
+    </div>
+
+    <div id="signup-fields" class="hidden mt-4">
+      <input id="user-name" type="text" placeholder="이름" class="w-full mb-3 p-2 border rounded">
+      <input id="user-birth" type="date" class="w-full mb-3 p-2 border rounded">
+      <input id="user-nickname" type="text" placeholder="닉네임" class="w-full mb-3 p-2 border rounded">
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

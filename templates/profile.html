@@ -1,0 +1,116 @@
+{% set page = "profile" %}
+{% include "layout.html" %}
+
+{% block content %}
+{% if status == "need_login" %}
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+  <main class="max-w-4xl mx-auto px-6 py-8 pb-32">
+    <div class="bg-white/90 p-6 rounded-2xl shadow-xl text-center">
+      <h2 class="text-2xl font-bold text-slate-800 mb-4">로그인이 필요한 서비스입니다.</h2>
+      <a href="/login">
+        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+          로그인 하러 가기
+        </button>
+      </a>
+    </div>
+    {% else %}
+    <div class="profile-container">
+      <aside class="sidebar">
+        <div class="user-info-box">
+          <h2><b>유저 정보</b></h2>
+          <p><strong>이름:</strong> {{ data.userInfo.name }}</p>
+          <p><strong>닉네임:</strong> {{ data.userInfo.nickname }}</p>
+          <p><strong>생년월일:</strong> {{ data.userInfo.birth }}</p>
+        </div>
+        <nav class="menu-tabs">
+          <button id="show-songs-btn" class="active" onclick="showPanel('songs')">❤️ 좋아요 누른 곡</button>
+          <button id="show-posts-btn" onclick="showPanel('posts')">📄 작성한 글</button>
+          <button id="show-edit-btn" onclick="showPanel('edit')">⚙️ 프로필 수정</button>
+        </nav>
+      </aside>
+
+      <main class="content-area">
+        <div id="edit-panel" class="content-panel">
+          <h2 class="text-xl font-bold mb-6 text-slate-800">프로필 수정</h2>
+          <form id="edit-profile-form" class="space-y-6 max-w-md">
+
+            <div class="flex gap-4 items-end">
+              <div class="flex-1">
+                <label for="edit-name" class="block text-sm font-medium text-slate-700">이름</label>
+                <input type="text" id="edit-name" name="name" value="{{ data.userInfo.name }}"
+                  class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+              </div>
+              <button type="button"
+                class="px-4 h-[42px] bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                onclick="updateField('name')">
+                변경
+              </button>
+            </div>
+
+            <div class="flex gap-4 items-end">
+              <div class="flex-1">
+                <label for="edit-nickname" class="block text-sm font-medium text-slate-700">닉네임</label>
+                <input type="text" id="edit-nickname" name="nickname" value="{{ data.userInfo.nickname }}"
+                  class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+              </div>
+              <button type="button"
+                class="px-4 h-[42px] bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                onclick="updateField('nickname')">
+                변경
+              </button>
+            </div>
+
+            <div class="flex gap-4 items-end">
+              <div class="flex-1">
+                <label for="edit-birth" class="block text-sm font-medium text-slate-700">생년월일</label>
+                <input type="date" id="edit-birth" name="birth" value="{{ data.userInfo.birth }}"
+                  class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+              </div>
+              <button type="button"
+                class="px-4 h-[42px] bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                onclick="updateField('birth')">
+                변경
+              </button>
+            </div>
+
+            <div class="pt-4 border-t border-gray-200">
+              <a href="/changepw" class="text-indigo-600 font-medium hover:underline">
+                비밀번호 변경
+              </a>
+            </div>
+
+          </form>
+        </div>
+        <div id="songs-panel" class="content-panel active">
+          <h2 class="text-xl font-bold mb-6 text-slate-800">좋아요 누른 곡</h2>
+          {% for song in data.likedSongs %}
+          <div class="list-item" data-item-id="{{ song.track_id }}" style="cursor:pointer;">
+            <img src="{{ song.album_cover }}" alt="앨범 커버">
+            <div>
+              <strong>{{ song.title }}</strong>
+              <p style="margin: 4px 0; color: #666;">{{ song.artist_name }}</p>
+            </div>
+            <button class="unlike-btn" data-track-id="{{ song.track_id }}">X</button>
+          </div>
+          {% else %}
+          <p>좋아요를 누른 노래가 없습니다.</p>
+          {% endfor %}
+        </div>
+
+        <div id="posts-panel" class="content-panel">
+          <h2 class="text-xl font-bold mb-6 text-slate-800">작성한 글</h2>
+          {% for post in data.authoredPosts %}
+          <div class="list-item">
+            <div>
+              <a href="{{ url_for('community.post_detail', post_id=post._id) }}">{{ post.title }}</a>
+            </div>
+            <span class="post-date">{{ post.created_at | string | truncate(10, True, '') }}</span>
+          </div>
+          {% else %}
+          <p>작성한 글이 없습니다.</p>
+          {% endfor %}
+        </div>
+      </main>
+    </div>
+    {% endif %}
+    {% endblock %}

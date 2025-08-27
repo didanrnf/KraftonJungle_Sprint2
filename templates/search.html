@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f6f9ff;
+    }
+</style>
+
+<div class="max-w-4xl mx-auto p-8 min-h-screen">
+    <h1 class="text-3xl font-bold text-center mb-8">음악 검색</h1>
+
+    <!-- 여기 숨은 값 추가 -->
+    <input type="hidden" id="initialTrackId" value="{{ track_id or '' }}">
+
+    <div class="relative mb-8">
+        <input type="text" id="musicSearch" placeholder="노래 제목이나 아티스트를 검색하세요..."
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg">
+        <ul id="suggestions"
+            class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+        </ul>
+    </div>
+
+    <div id="musicDetailsWrapper" class="hidden">
+        <h2 class="text-2xl font-semibold mb-4">선택된 곡 정보</h2>
+        <div id="musicDetails" class="flex flex-col md:flex-row items-center bg-white p-6 rounded-lg shadow-md">
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endblock %}

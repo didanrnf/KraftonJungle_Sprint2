@@ -1,0 +1,220 @@
+/* --- changepw.css --- */
+#changepw-form input {
+    border: 1px solid #cbd5e1;
+    padding: 0.5rem;
+}
+
+/* --- common.css --- */
+body {
+    font-family: 'Nunito Sans', 'Inter', sans-serif;
+}
+
+.nav-item {
+    transition: all .2s;
+}
+
+/* --- community.css --- */
+#posts-container {
+    margin-top: 1rem;
+}
+
+/* --- findid.css --- */
+
+
+/* --- findpw.css --- */
+#findpw-form input {
+    border: 1px solid #cbd5e1;
+    padding: 0.5rem;
+}
+
+/* --- landing.css --- */
+.music-note {
+    font-size: 2rem;
+    animation: floatUp 10s linear infinite;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(100vh);
+    }
+
+    to {
+        transform: translateY(-10vh);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 1s ease-out;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(180deg);
+        opacity: 0.7;
+    }
+}
+
+@keyframes drift {
+
+    0%,
+    100% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+        opacity: 0.1;
+    }
+
+    33% {
+        transform: translateX(20px) translateY(-10px) rotate(5deg);
+        opacity: 0.2;
+    }
+
+    66% {
+        transform: translateX(-15px) translateY(5px) rotate(-3deg);
+        opacity: 0.15;
+    }
+}
+
+@keyframes gentle-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+
+.animate-drift {
+    animation: drift 8s ease-in-out infinite;
+}
+
+.animate-gentle-bounce {
+    animation: gentle-bounce 3s ease-in-out infinite;
+}
+
+.star:nth-child(odd) {
+    animation-delay: -2s;
+}
+
+.decorative-icon:nth-child(2) {
+    animation-delay: -1s;
+}
+
+.decorative-icon:nth-child(3) {
+    animation-delay: -2s;
+}
+
+@layer utilities {
+
+    /* 기울어진 시점에서 회전 */
+    @keyframes spin-tilt {
+        0% {
+            transform: rotateX(58deg) rotateZ(0deg);
+        }
+
+        100% {
+            transform: rotateX(58deg) rotateZ(360deg);
+        }
+    }
+
+    .animate-spin-tilt {
+        animation: spin-tilt 12s linear infinite;
+        transform-style: preserve-3d;
+    }
+
+    .animate-spin-tilt-fast {
+        animation: spin-tilt 7s linear infinite;
+        transform-style: preserve-3d;
+    }
+
+    /* 빛 스윕(하이라이트) */
+    @keyframes sweep {
+        0% {
+            transform: rotate(0deg);
+            opacity: .75;
+        }
+
+        50% {
+            opacity: .35;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            opacity: .75;
+        }
+    }
+
+    .animate-sweep-slow {
+        animation: sweep 4.6s linear infinite;
+    }
+
+    .animate-sweep-fast {
+        animation: sweep 3s linear infinite;
+    }
+}
+
+@layer utilities {
+    .animated-gradient {
+        background: linear-gradient(-45deg, #ffffff, #516bff, #ffffff, #516bff);
+        background-size: 400% 400%;
+        animation: gradientWave 8s ease infinite;
+    }
+
+    @keyframes gradientWave {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+}
+
+/* --- login.css --- */
+#auth-form input {
+    border: 1px solid #cbd5e1;
+    padding: 0.5rem;
+}
+
+/* --- profile.css --- */
+.profile-box {
+    border: 1px solid #cbd5e1;
+    padding: 1rem;
+}
+
+/* --- recommend.css --- */
+#tracks-container {
+    margin-top: 1rem;
+}
+
+/* --- register.css --- */

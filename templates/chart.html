@@ -1,0 +1,256 @@
+{% set page = "chart" %}
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+  <audio id="audio-player" class="hidden"></audio>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32">
+
+    <!-- 헤더 -->
+    <div
+      class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 p-8 rounded-2xl shadow-lg mb-10 text-white text-center">
+      <h1 class="text-4xl font-bold mb-2">음악과 함께하는 특별한 순간</h1>
+      <p class="text-lg opacity-90">매주 인기 차트와 맞춤 음악 추천으로 새로운 음악을 발견해보세요.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Hotlist -->
+      <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
+        <div class="mb-5">
+          <h2 class="text-xl font-bold text-slate-800">🔥이번주의 Hotlist🔥</h2>
+          <p class="text-sm text-slate-500">지금 가장 많이 듣는 음악</p>
+        </div>
+        <ul class="space-y-4">
+          {% for song in popular_songs %}
+          <li class="grid grid-cols-[auto_auto_1fr_auto_auto_auto] items-center gap-4" data-title="{{ song.title }}"
+            data-artist="{{ song.artist }}" data-album-art="{{ song.album_art }}">
+            <!-- 순위 -->
+            <p class="text-lg font-bold text-slate-800 w-6 text-center">{{ loop.index }}</p>
+
+            <!-- 앨범커버 -->
+            <img src="{{ song.album_art or '' }}"
+              onerror="this.onerror=null;this.classList.add('bg-gray-200');this.src='';this.alt='No Cover';"
+              alt="{{ song.title }}" class="w-12 h-12 rounded-lg object-cover">
+
+            <!-- 제목/가수 -->
+            <div class="truncate">
+              <p class="font-semibold text-slate-900">{{ song.title }}</p>
+              <p class="text-sm text-slate-600">{{ song.artist }}</p>
+            </div>
+
+            <!-- 좋아요 -->
+            <button
+              class="like-btn text-pink-500 w-8 h-8 flex items-center justify-center rounded-full {% if song.is_liked %}disabled:{% else %}hover:bg-pink-100{% endif %}"
+              data-track-id="{{ song.id }}" data-title="{{ song.title }}" data-artist="{{ song.artist }}"
+              data-album-cover="{{ song.album_art }}" data-preview="{{ song.preview_url }}" {% if song.is_liked
+              %}disabled{% endif %}>
+              {% if song.is_liked %}
+              <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  clip-rule="evenodd" />
+              </svg>
+              {% else %}
+              <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+              </svg>
+              {% endif %}
+            </button>
+
+            <!-- 공유 -->
+            <button
+              class="share-btn text-gray-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200">
+              <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+              </svg>
+            </button>
+
+            <!-- 재생 -->
+            <button
+              class="play-btn w-8 h-8 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center {% if not song.preview_url %}disabled cursor-not-allowed{% endif %}"
+              data-preview-url="{{ song.preview_url }}" {% if not song.preview_url %}disabled{% endif %}>
+              <svg class="play-icon w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+              </svg>
+              <svg class="pause-icon w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path
+                  d="M5.75 4.5a.75.75 0 00-.75.75v10.5a.75.75 0 001.5 0V5.25A.75.75 0 005.75 4.5zm8.5 0a.75.75 0 00-.75.75v10.5a.75.75 0 001.5 0V5.25a.75.75 0 00-.75-.75z" />
+              </svg>
+            </button>
+          </li>
+          {% else %}
+          <li>인기 차트를 불러올 수 없습니다.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- 오늘의 인기 게시글 -->
+      <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center mb-5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 mr-2" viewBox="0 0 20 20"
+            fill="currentColor">
+            <path
+              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">오늘의 인기 게시글</h2>
+            <p class="text-sm text-slate-500">가장 많은 사랑을 받은 음악 이야기</p>
+          </div>
+        </div>
+        <ul class="space-y-4">
+          {% for post in daily_posts %}
+          <li class="grid grid-cols-[auto_auto_1fr_auto] items-center gap-4">
+            <!-- 순위 -->
+            <p class="text-lg font-bold text-slate-800 w-6 text-center">{{ loop.index }}</p>
+
+            <!-- 앨범커버 -->
+            {% if post.song_info.album_cover %}
+            <img src="{{ post.song_info.album_cover }}" alt="album cover" class="w-12 h-12 rounded-lg object-cover">
+            {% else %}
+            <div class="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
+              ♪
+            </div>
+            {% endif %}
+
+            <!-- 제목 -->
+            <div>
+              <p class="text-lg font-bold text-slate-900">
+                <a href="{{ url_for('community.post_detail', post_id=post._id) }}" class="hover:underline">{{ post.title
+                  }}</a>
+              </p>
+              <p class="text-sm text-slate-600">{{ post.song_info.title }} - {{ post.song_info.artist }}</p>
+            </div>
+
+            <!-- 좋아요 -->
+            <div class="flex items-center gap-2">
+              <!-- 따봉 아이콘 -->
+              <div class="bg-gradient-to-r opacity-80 from-indigo-500 to-purple-600 
+              p-1 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                  class="w-3.5 h-3.5 text-white transform -translate-y-0.35">
+                  <path d="M2 10h4v12H2V10zm20 1c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32
+               c0-.41-.17-.79-.44-1.06L13.17 2 7.59 7.59C7.22 7.95 7 8.45 
+               7 9v11c0 1.1.9 2 2 2h8c.83 0 1.54-.5 1.84-1.22l3.02-7.05
+               c.09-.23.14-.47.14-.73v-2z" />
+                </svg>
+              </div>
+              <!-- 좋아요(플로우) 숫자 -->
+              <span class="font-bold text-slate-700">{{ post.likes }}</span>
+            </div>
+          </li>
+          {% else %}
+          <li>오늘의 인기 게시글이 없습니다.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      const audioPlayer = document.getElementById('audio-player');
+      let currentlyPlayingButton = null;
+
+      function toggleIcons(button, showPlay) {
+        const playIcon = button.querySelector('.play-icon');
+        const pauseIcon = button.querySelector('.pause-icon');
+        if (showPlay) {
+          playIcon.classList.remove('hidden');
+          pauseIcon.classList.add('hidden');
+        } else {
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+        }
+      }
+
+      document.querySelectorAll('.play-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const previewUrl = button.dataset.previewUrl;
+          if (!previewUrl) return;
+
+          if (currentlyPlayingButton === button) {
+            if (audioPlayer.paused) {
+              audioPlayer.play();
+              toggleIcons(button, false);
+            } else {
+              audioPlayer.pause();
+              toggleIcons(button, true);
+            }
+          } else {
+            if (currentlyPlayingButton) {
+              toggleIcons(currentlyPlayingButton, true);
+            }
+            audioPlayer.src = previewUrl;
+            audioPlayer.play();
+            toggleIcons(button, false);
+            currentlyPlayingButton = button;
+          }
+        });
+      });
+
+      audioPlayer.addEventListener('ended', () => {
+        if (currentlyPlayingButton) {
+          toggleIcons(currentlyPlayingButton, true);
+          currentlyPlayingButton = null;
+        }
+      });
+
+      const filledHeartSVG = `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>`;
+
+      document.querySelectorAll('.like-btn').forEach(button => {
+        if (button.disabled) return;
+        button.addEventListener('click', async () => {
+          const payload = {
+            track_id: parseInt(button.dataset.trackId),
+            title: button.dataset.title,
+            artist: button.dataset.artist,
+            album_cover: button.dataset.albumCover,
+            preview: button.dataset.preview
+          };
+
+          try {
+            const response = await fetch('/like', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            if (result.success) {
+              button.innerHTML = filledHeartSVG;
+              button.disabled = true;
+              button.classList.add('disabled:');
+              button.classList.remove('hover:bg-pink-100');
+            } else {
+              alert(result.message);
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('요청 처리 중 오류가 발생했습니다.');
+          }
+        });
+      });
+
+      document.addEventListener('click', function (event) {
+        const shareButton = event.target.closest('.share-btn');
+        if (!shareButton) {
+          return;
+        }
+
+        const songItem = shareButton.closest('li[data-title]');
+        if (songItem) {
+          const title = encodeURIComponent(songItem.dataset.title);
+          const artist = encodeURIComponent(songItem.dataset.artist);
+          const album = encodeURIComponent(songItem.dataset.albumArt);
+
+          window.location.href = `/write?title=${title}&artist=${artist}&album=${album}`;
+        }
+      });
+    </script>
+  </main>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% set page = "findid" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div class="bg-white/90 p-6 rounded-2xl shadow-xl w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4">아이디 찾기</h2>
+        <form id="findid-form">
+            <div class="mb-3">
+                <label for="findid-name" class="block text-sm text-gray-600 mb-1">이름</label>
+                <input id="findid-name" type="text" class="w-full p-2 border rounded">
+            </div>
+            <div class="mb-3">
+                <label for="findid-birth" class="block text-sm text-gray-600 mb-1">생년월일</label>
+                <input id="findid-birth" type="date" class="w-full p-2 border rounded">
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg">아이디 찾기</button>
+        </form>
+        <div id="findid-result" class="mt-4 text-center text-lg font-semibold text-indigo-700 hidden"></div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+# 아침에 항상 git pull origin main 해서 개발 브랜치랑 내 전용 브랜치랑 동기화 할 것
+# 정해진 파일 외 건들일 땐 팀원과 소통 후 변경
+# 파일을 추가할 때도 팀원과 소통
+
+# 알아야 하는 것들 모아놓은 텍스트 파일
+
+
+project-root/
+│
+├── app.py                 # Flask 실행 메인 파일
+├── requirements.txt       # 설치할 패키지 목록(모듈, 패키지 추가할때마다 여기에 추가바람!!)
+├── info.txt               # 우리가 알고있으면 좋은 정보 모음
+│
+│
+│
+├── routes/                # 각 기능의 라우터
+│   ├──__init__.py         # 블루프린트 모음
+│   ├── auth_routes.py     # 로그인/회원가입 관련
+│   └──...# 등등
+│
+├── services/              # 핵심 로직 처리 (DB 저장, 필터링 등)
+│   ├── auth_service.py
+│   ├── ...# 등등
+│   └──...# 등등
+│
+├── static/                # CSS, JS 등 정적 파일
+├── templates/             # HTML 파일
+
+
+run.py	모든 Blueprint 등록 및 서버 실행
+routes/	요청 URL과 기능 연결 (예: /login 처리)
+services/ 실제 로직 처리 (DB 저장, 처리 알고리즘 등)
+static/, templates/	프론트엔드 요소 
+
+
