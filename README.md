@@ -1,1 +1,2 @@
-# KraftonJungle_Sprint2
+크래프톤 웹 개발 프로젝트
+Deezer api를 이용한 사용자의 음악 취향에 따른 음악 추천 및 공유 게시판 구현
